@@ -54,7 +54,7 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
   
   self.borderView.layer.borderWidth = 2;
   self.borderView.layer.cornerRadius = 10;
-
+  
   //buttons
   for (UIButton *button in self.pinButtons) {
     //добавить цвет tetx
@@ -69,32 +69,32 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
                action:@selector(pinButtonsTapped:) forControlEvents:(UIControlEventTouchUpInside)];
     
     [button addTarget:self
-                             action:@selector(buttonHighlight:)
-                   forControlEvents:UIControlEventTouchDown];
+               action:@selector(buttonHighlight:)
+     forControlEvents:UIControlEventTouchDown];
   }
   self.authorizeButton.layer.borderWidth = 2;
   self.authorizeButton.layer.cornerRadius = 10;
-    
+  
   [ self.authorizeButton addTarget:self
-                           action:@selector(authorizeButtonPressed:)
-                 forControlEvents:UIControlEventTouchUpInside];
+                            action:@selector(authorizeButtonPressed:)
+                  forControlEvents:UIControlEventTouchUpInside];
   [ self.authorizeButton addTarget:self
-                           action:@selector(authorizeButtonHighlight:)
-                 forControlEvents:UIControlEventTouchDown];
+                            action:@selector(authorizeButtonHighlight:)
+                  forControlEvents:UIControlEventTouchDown];
   self.authorizeButton.layer.borderColor = [UIColor colorWithHex:littleBoyBlueHex alpha:1.0].CGColor;
   self.authorizeButton.backgroundColor = [UIColor colorWithHex:whiteHex alpha:1.0];
-
- // UIControlStateNormal;
+  
+  // UIControlStateNormal;
   [self.authorizeButton setTitleColor:[UIColor colorWithHex:littleBoyBlueHex alpha:1.0] forState:UIControlStateNormal];
   
-//UIControlStateHighlighted
+  //UIControlStateHighlighted
   [self.authorizeButton setTitleColor:[UIColor colorWithHex:littleBoyBlueHex alpha:0.4] forState:UIControlStateHighlighted];
-
- // UIControlStateDisabled
+  
+  // UIControlStateDisabled
   [self.authorizeButton setTitleColor:[UIColor colorWithHex:littleBoyBlueHex alpha:0.5] forState:UIControlStateDisabled];
   
   UIImage *imageStateNormal = [UIImage imageNamed:@"user"];
-
+  
   [self.authorizeButton setImage:imageStateNormal forState:UIControlStateNormal];
   
   UIImage *imageStateHighlighted = [UIImage imageNamed:@"user-filled"];
@@ -104,7 +104,7 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
   [self setColors];
 }
 - (void)setColors{
-
+  
   self.borderView.backgroundColor = [UIColor colorWithHex:whiteHex alpha:1.0];
   self.borderView.layer.borderColor = [UIColor colorWithHex:whiteHex alpha:1.0].CGColor;
   
@@ -134,8 +134,8 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
   
   self.loginTextField.layer.borderColor = [UIColor colorWithHex:turquoiseGreenHex alpha:0.5].CGColor;
   self.passwordlTextField.layer.borderColor = [UIColor colorWithHex:turquoiseGreenHex alpha:0.5].CGColor;
-
- self.authorizeButton.alpha = 0.5;
+  
+  self.authorizeButton.alpha = 0.5;
 }
 - (void)secureError{
   self.borderView.layer.borderColor = [UIColor colorWithHex:venetianRedHex alpha:1.0].CGColor;
@@ -145,7 +145,7 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
 - (void)setActive:(BOOL)active{
   [self.passwordlTextField setEnabled:active];
   [self.loginTextField setEnabled:active];
- [self.authorizeButton setEnabled:active];
+  [self.authorizeButton setEnabled:active];
 }
 - (void)hideUIElements:(BOOL)hide{
   [self.borderView setHidden:hide];
@@ -156,21 +156,21 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
 
 -(void)showAlerts{
   UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Welcome"
-                                 message:@"You are successfuly authorized!"
-                                 preferredStyle:UIAlertControllerStyleAlert];
-   
+                                                                 message:@"You are successfuly authorized!"
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+  
   UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Refresh" style:UIAlertActionStyleDefault
-     handler:^(UIAlertAction * action) {
+                                                        handler:^(UIAlertAction * action) {
     [self refresh];
   }];
-   
+  
   [alert addAction:defaultAction];
   [self presentViewController:alert animated:YES completion:nil];
 }
 //MARK: - Selectors
 - (void)pinButtonsTapped:(UIButton *)sender{
   sender.backgroundColor = [UIColor colorWithHex:whiteHex alpha:1.0];
- 
+  
   self.borderView.layer.borderColor = [UIColor colorWithHex:whiteHex alpha:1.0].CGColor;
   
   NSMutableString *str = [[NSMutableString alloc] initWithFormat:@"%@%ld", self.resultLabel.text, (long)sender.tag];
@@ -183,7 +183,7 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
       //все ок
       [self showAlerts];
     } else
-    // ошибка ввода
+      // ошибка ввода
       [self secureError];
   } else {
     self.resultLabel.text   =  str;
@@ -199,7 +199,7 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
   sender.backgroundColor = [UIColor colorWithHex:whiteHex alpha:1.0];
   NSString *valueFromLoginTextField = [[NSString alloc] initWithFormat:@"%@", self.loginTextField.text];
   NSString *valueFromPasswordlTextField = [[NSString alloc] initWithFormat:@"%@", self.passwordlTextField.text];
-
+  
   if (([login isEqualToString:valueFromLoginTextField] && [password isEqualToString:valueFromPasswordlTextField])) {
     [self pwdIsOk];
     [self tap];
@@ -222,8 +222,24 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
 }
 
 // MARK: - UIFieldTextDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+  if (textField.tag == 1 ) {
+    NSMutableCharacterSet *characterSet = [NSMutableCharacterSet new];
+    [characterSet addCharactersInString:@"abcdefghijklmnopqrstuvwxyz"];
+    NSCharacterSet * forbideenCharacterSet = [characterSet invertedSet];
+    NSRange rangeOfSet  = [string rangeOfCharacterFromSet:forbideenCharacterSet];
+    if (rangeOfSet.location == NSNotFound) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return  true;
+  }
+  
+}
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-    textField.layer.borderColor = [UIColor colorWithHex:blackCoralHex alpha:1.0].CGColor;
+  textField.layer.borderColor = [UIColor colorWithHex:blackCoralHex alpha:1.0].CGColor;
   return true;
 }
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
@@ -236,13 +252,13 @@ UInt32 const littleBoyBlueHex = 0x80A4ED;
     BOOL isResponder  =  [self.passwordlTextField becomeFirstResponder];
     return isResponder;
   } else {
-  BOOL isResponder  = [textField resignFirstResponder];
-  return isResponder;
+    BOOL isResponder  = [textField resignFirstResponder];
+    return isResponder;
   }
 }
-  //MARK: - UITapGestureRecognizer
-  //прячем клавиатуру при клике на rootview
-  -(void)addGestureRecognizer { UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-    [self.view addGestureRecognizer:tapRecognizer];
-  }
+//MARK: - UITapGestureRecognizer
+//прячем клавиатуру при клике на rootview
+-(void)addGestureRecognizer { UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+  [self.view addGestureRecognizer:tapRecognizer];
+}
 @end
